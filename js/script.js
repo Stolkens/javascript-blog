@@ -1,5 +1,5 @@
 'use strict';
-
+{
 const titleClickHandler = function(event){
     event.preventDefault();
     const clickedElement = this;
@@ -29,8 +29,39 @@ const titleClickHandler = function(event){
     targetArticle.classList.add('active');
     }
   
+    
+const generateTitleLinks = function () {
+    
+   
+    /* remove text of list of articles */
+    const titleList = document.querySelector('.titles');
+    titleList.innerHTML = ''
+    /* for each article */
+    
+    const articles = document.querySelectorAll('.post');  
+    let html = '';
+    for (let article of articles){
+        /* get id of article*/
+        const articleID = article.getAttribute('id');
+         /* find the title element*/
+        const articleTitleElement = article.querySelector('.post-title');
+        // console.log(articleTitleElement)
+        /* get the title from title element */
+        const articleTitle = articleTitleElement.innerHTML;
+        /* create html of article link &  */
+        const articleLink = '<li><a href="#' + articleID + '"><span>'+ articleTitle + '</span></a></li>'
+        /* insert created html to list of title links */
+        html = html + articleLink;
+        // console.log(html)
+        
+    }
+    titleList.innerHTML = html;
     const links = document.querySelectorAll('.titles a');
+    // console.log(links)
   
     for(let link of links){
         link.addEventListener('click', titleClickHandler);
   }
+}
+generateTitleLinks () 
+}
