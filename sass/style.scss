@@ -57,6 +57,30 @@ body {
 .sidebar {
   flex: 1 0 0;
   text-align: center;
+  .tags li{
+    display: inline-block;
+
+  }
+  .tag-size-1 {
+    font-size: 16px;
+    color: green;
+  }
+  .tag-size-2 {
+    font-size: 20px;
+    color: yellow;;
+  }
+  .tag-size-3 {
+    font-size: 24px;
+    color: lightseagreen;
+  }
+  .tag-size-4 {
+    font-size: 28px;
+    color: lightcoral;
+  }
+  .tag-size-5 {
+    font-size: 36px;
+    color: skyblue;
+  }
 }
 
 .posts {
