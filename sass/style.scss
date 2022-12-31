@@ -57,6 +57,9 @@ body {
 .sidebar {
   flex: 1 0 0;
   text-align: center;
+  .tags a {
+    line-height: 1;
+  }
   .tags li{
     display: inline-block;
 

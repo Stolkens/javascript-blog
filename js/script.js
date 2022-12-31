@@ -1,16 +1,29 @@
 {
   ('use strict');
   const opts = {
-    articleSelector: '.post',
-    titleSelector: '.post-title',
-    titleListSelector: '.titles',
-    articleTagsSelector: '.post-tags .list',
-    articleAuthorSelector: '.post-author',
-    tagsListSelector: '.tags',
-    cloudClassCount: '5',
-    cloudClassPrefix: 'tag-size-',
-    authorsListSelector: '.authors',
-
+    tagSizes: {
+      count: '5',
+      prefix: 'tag-size-',
+    },
+  };
+  const select = {
+    all: {
+      articles: '.post',
+      linksTo: {
+        title: '.post-title',
+        tags: 'a[href^="#tag-"]',
+        authors: 'a[href^="#author-"]',
+      },
+    } ,
+    article: {
+      tags: '.post-tags .list',
+      authors: '.post-author',
+    },
+    listOf: {
+      tags: '.tags',
+      authors: '.authors',
+      titles: '.titles',
+    },
   };
 
   const titleClickHandler = function (event) {
@@ -29,7 +42,7 @@
 
     /* [DONE] remove class 'active' from all articles */
 
-    const activeArticles = document.querySelectorAll('.posts .active');
+    const activeArticles = document.querySelectorAll(select.all.articles);
     for (let activeArticle of activeArticles) {
       activeArticle.classList.remove('active');
     }
@@ -50,13 +63,13 @@
   const generateTitleLinks = function (customselector = '') {
     /* [DONE] remove text of list of articles */
 
-    const titleList = document.querySelector(opts.titleListSelector);
+    const titleList = document.querySelector(select.listOf.titles);
     titleList.innerHTML = '';
 
     /* [DONE] for each article */
 
     const articles = document.querySelectorAll(
-      opts.articleSelector + customselector
+      select.all.articles + customselector
     );
     
     let html = '';
@@ -67,7 +80,7 @@
 
       /* [DONE] find the title element*/
 
-      const articleTitleElement = article.querySelector(opts.titleSelector);
+      const articleTitleElement = article.querySelector(select.all.linksTo.title);
 
       /* [DONE] get the title from title element */
 
@@ -115,9 +128,9 @@
     const normalizedCount = count - params.min;
     const normalizedMax = params.max - params.min;
     const percentage = normalizedCount/normalizedMax;
-    const classNumber = Math.floor(percentage* (opts.cloudClassCount -1)+1);
+    const classNumber = Math.floor(percentage* (opts.tagSizes.count -1)+1);
 
-    return opts.cloudClassPrefix + classNumber;
+    return opts.tagSizes.prefix + classNumber;
   };
 
   const generateTags = function () {
@@ -127,14 +140,14 @@
     let allTags = {};
     /* [DONE] find all articles */
 
-    const articles = document.querySelectorAll(opts.articleSelector);
+    const articles = document.querySelectorAll(select.all.articles);
 
     /* [DONE] START LOOP: for every article: */
 
     for (let article of articles) {
       /* [DONE] find tags wrapper */
 
-      const tagsWrapper = article.querySelector(opts.articleTagsSelector);
+      const tagsWrapper = article.querySelector(select.article.tags);
       /* [DONE] make html variable with empty string */
       let html = '';
 
@@ -179,7 +192,7 @@
       /* [DONE] END LOOP: for every article: */
     }
     /* [NEW] find list of tags in right column */
-    const tagList = document.querySelector(opts.tagsListSelector);
+    const tagList = document.querySelector(select.listOf.tags);
     
     const tagsParams = calculateTagsParams(allTags);
     console.log(tagsParams);
@@ -256,7 +269,7 @@
   const addClickListenersToTags = function () {
     /* [DONE] find all links to tags */
 
-    const tagLinks = document.querySelectorAll('a[href^="#tag-"]');
+    const tagLinks = document.querySelectorAll(select.all.linksTo.tags);
 
     /* [DONE] START LOOP: for each link */
 
@@ -279,13 +292,13 @@
 
     /* [DONE] find all articles */
 
-    const articles = document.querySelectorAll(opts.articleSelector);
+    const articles = document.querySelectorAll(select.all.articles);
 
     /* [DONE] START LOOP: for every article: */
     for (let article of articles) {
       /* [DONE] find author wrapper */
 
-      const authorWrapper = article.querySelector(opts.articleAuthorSelector);
+      const authorWrapper = article.querySelector(select.article.authors);
 
       /* [DONE] make html variable with empty string */
 
@@ -324,7 +337,7 @@
       /* [DONE] END LOOP: for every article: */
     }
     /* [NEW] find list of authors in right column */
-    const authorList = document.querySelector(opts.authorsListSelector);
+    const authorList = document.querySelector(select.listOf.authors);
 
     /* [NEW] create variable fo allAuthors links */
     let allAuthorsHtml = '';
@@ -399,7 +412,7 @@
 
   const addClickListenersToAuthors = function () {
     /* [DONE] find all links to authors */
-    const authorLinks = document.querySelectorAll('a[href^="#author-"]');
+    const authorLinks = document.querySelectorAll(select.all.linksTo.authors);
     console.log('authorLinks', authorLinks);
 
     /* [DONE] START LOOP: for each link */
