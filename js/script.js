@@ -5,6 +5,7 @@
     tagHtml: Handlebars.compile(document.querySelector('#template-tag-html').innerHTML),
     authorHtml: Handlebars.compile(document.querySelector('#template-author-html').innerHTML),
     tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+    authorListLink: Handlebars.compile(document.querySelector('#template-author-list-link').innerHTML),
   };
 
   const opts = {
@@ -125,9 +126,9 @@
       }
     }
     return params;
-  };
+  };    
 
-  const calculateTagCLass = function(count, params) {
+  const calculateTagClass = function(count, params) {
     const normalizedCount = count - params.min;
     const normalizedMax = params.max - params.min;
     const percentage = normalizedCount/normalizedMax;
@@ -350,20 +351,25 @@
     const authorList = document.querySelector(select.listOf.authors);
 
     /* [NEW] create variable fo allAuthors links */
-    let allAuthorsHtml = '';
+    const allAuthorsData = {authors: []};
 
     /* [NEW] start loop for each author in allAuthors */
 
     for(let author in allAuthors) {
       /*[NEW] generate code of a link and add it to allAuthorsHtml */
+      allAuthorsData.authors.push({
+        author: author,
+        count: allAuthors[author],
+      });
 
-      allAuthorsHtml += '<li><a href="#author-' + author + '"><span class="author-name">' + author + '('+ allAuthors[author] + ')</span></a><li>';
+      // allAuthorsHtml += '<li><a href="#author-' + author + '"><span class="author-name">' + author + '('+ allAuthors[author] + ')</span></a><li>';
       /* [NEW] END LOOP: for each author in allAuthors: */
 
     }
     /*[NEW] add HTML from allAuthorsHtml to authorList */
-    console.log(allAuthorsHtml);
-    authorList.innerHTML = allAuthorsHtml;
+    
+    authorList.innerHTML = templates.authorListLink(allAuthorsData);
+    console.log('allAuthorsData', allAuthorsData);
 
   };
 
